@@ -21,12 +21,11 @@ public class Shooter extends SubsystemBase {
   public Shooter(int leftID, int rightID) {
     leftMotor = new CANSparkMax(leftID, MotorType.kBrushless);
     rightMotor = new CANSparkMax(rightID, MotorType.kBrushless);
-
-    rightMotor.follow(leftMotor);
+  
   }
   public void setSpeed(double spd){
-    leftMotor.set(spd);
-    rightMotor.set(spd);
+    leftMotor.set(-spd);
+    rightMotor.set(-spd);
   }
 
   @Override

@@ -12,9 +12,10 @@ import frc.robot.subsystems.Shooter;
 
 public class ShootCmd extends Command {
   /** Creates a new ShootCmd. */
-  private final Shooter shooter = new Shooter(18, 19);
+  private final Shooter shooter;
   private final Supplier<Boolean> shoot;
-  public ShootCmd(Supplier<Boolean> shoot) {
+  public ShootCmd(Shooter shooter, Supplier<Boolean> shoot) {
+    this.shooter = shooter;
     this.shoot = shoot;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
@@ -29,6 +30,8 @@ public class ShootCmd extends Command {
   public void execute() {
     if(shoot.get())
       shooter.setSpeed(.9);
+    if(shoot.get() == false)
+      shooter.setSpeed(0);
   }
 
   // Called once the command ends or is interrupted.

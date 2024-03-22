@@ -48,8 +48,8 @@ public class RobotContainer {
       () -> intakeController.a().getAsBoolean()));
 
     shooter.setDefaultCommand(new ShootCmd(
-      () -> intakeController.rightBumper().getAsBoolean()
-    ));
+      shooter,
+      () -> intakeController.rightBumper().getAsBoolean()));
 
   }
 
