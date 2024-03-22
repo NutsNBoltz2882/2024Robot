@@ -24,6 +24,10 @@ public class Shooter extends SubsystemBase {
 
     rightMotor.follow(leftMotor);
   }
+  public void setSpeed(double spd){
+    leftMotor.set(spd);
+    rightMotor.set(spd);
+  }
 
   @Override
   public void periodic() {
@@ -32,7 +36,7 @@ public class Shooter extends SubsystemBase {
   public Command shootCommand(){
     return run(
       () -> {
-        leftMotor.set(0);
+        leftMotor.set(.9);
       });
   }
 }
