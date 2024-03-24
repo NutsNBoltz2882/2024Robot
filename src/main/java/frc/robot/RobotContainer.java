@@ -120,6 +120,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new PathPlannerAuto("New Auto");
+    return null;
   }
 }
