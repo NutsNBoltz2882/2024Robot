@@ -9,10 +9,17 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.ShootCmd;
-import frc.robot.subsystems.Drivetrain;
+// import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SwerveSubsystem;
+
+import java.io.File;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -25,8 +32,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drivetrain drivetrain = new Drivetrain(8, 3, 6, 5); 
+  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  // private final Drivetrain drivetrain = new Drivetrain(8, 3, 6, 5); 
+  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+                                                                         "neo"));
   private final Intake intake = new Intake(12, 13);
   private final Shooter shooter = new Shooter(18, 19);
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -36,10 +45,36 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    /*
     drivetrain.setDefaultCommand(drivetrain.arcadeDriveCommand(
       () -> driverController.getLeftY() * -.9,
       () -> driverController.getRightX() * .9
     ));
+    */
+    // Applies deadbands and inverts controls because joysticks
+    // are back-right positive while robot
+    // controls are front-left positive
+    // left stick controls translation
+    // right stick controls the desired angle NOT angular rotation
+    Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
+        () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.02),
+        () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.02),
+        () -> driverController.getRightX(),
+        () -> driverController.getRightY());
+
+    // Applies deadbands and inverts controls because joysticks
+    // are back-right positive while robot
+    // controls are front-left positive
+    // left stick controls translation
+    // right stick controls the angular velocity of the robot
+    Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
+        () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.02),
+        () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.02),
+        () -> driverController.getRightX() );
+
+
+    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+
     intake.setDefaultCommand(new IntakeCmd(
       intake, 
       () -> intakeController.b().getAsBoolean(),
@@ -64,8 +99,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    // new Trigger(m_exampleSubsystem::exampleCondition)
+    //     .onTrue(new ExampleCommand(m_exampleSubsystem));
     //  if(intakeController.start().getAsBoolean() == true)
     //    shooter.shootCommand();
 
@@ -80,6 +115,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return drivetrain.driveForwardAuto();
+    return null;
   }
 }
