@@ -17,12 +17,17 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import java.io.File;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -115,6 +120,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new PathPlannerAuto("New Auto");
   }
 }
