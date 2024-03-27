@@ -9,6 +9,8 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.PickUpNote;
+import frc.robot.commands.RollerIn;
+import frc.robot.commands.RollerOut;
 import frc.robot.commands.ShootCmd;
 // import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -57,8 +59,6 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    NamedCommands.registerCommand("pick up note", new PickUpNote(intake));  
-
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto chooser", autoChooser);
     autoChooser.addOption("none", null);
@@ -90,6 +90,10 @@ public class RobotContainer {
         () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.02),
         () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.02),
         () -> driverController.getRightX() );
+
+    NamedCommands.registerCommand("pick up note", new PickUpNote(intake));  
+    NamedCommands.registerCommand("rollers in", new RollerIn(intake));
+    NamedCommands.registerCommand("rollers out", new RollerOut(intake));
 
 
     drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
