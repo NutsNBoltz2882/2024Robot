@@ -15,7 +15,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
+import frc.robot.commands.ShootCmd;
+
 import java.io.File;
 import java.util.function.DoubleSupplier;
 
@@ -33,6 +36,13 @@ import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+
+import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.subsystems.Shooter;
+import frc.robot.commands.ShootCmd;
+import frc.robot.RobotContainer;
+
 
 public class SwerveSubsystem extends SubsystemBase
 {
@@ -70,6 +80,9 @@ public class SwerveSubsystem extends SubsystemBase
     // swerveDrive.pushOffsetsToControllers();
 
     setUpPathPlanner();
+
+    NamedCommands.registerCommand("wait", new WaitCommand(12));
+    // NamedCommands.registerCommand("shoot", RobotContainer.shooter.shooterCommand() );
   }
 
   /**

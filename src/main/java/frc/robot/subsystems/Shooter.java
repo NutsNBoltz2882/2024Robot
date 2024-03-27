@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
@@ -18,6 +19,8 @@ public class Shooter extends SubsystemBase {
   private final CANSparkMax rightMotor;
   //private final Supplier<Boolean> buttonPressed;
 
+
+  
   public Shooter(int leftID, int rightID) {
     leftMotor = new CANSparkMax(leftID, MotorType.kBrushless);
     rightMotor = new CANSparkMax(rightID, MotorType.kBrushless);
@@ -27,6 +30,7 @@ public class Shooter extends SubsystemBase {
     leftMotor.set(-spd);
     rightMotor.set(-spd);
   }
+
 
   @Override
   public void periodic() {
@@ -38,4 +42,8 @@ public class Shooter extends SubsystemBase {
         leftMotor.set(.9);
       });
   }
+
+  
+  
+  
 }

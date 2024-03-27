@@ -4,20 +4,14 @@
 
 package frc.robot.commands;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.Shooter;
 
-
-public class ShootCmd extends Command {
-  /** Creates a new ShootCmd. */
+public class ShootOut extends Command {
   private final Shooter shooter;
-  private final Supplier<Boolean> shoot;
-  public ShootCmd(Shooter shooter, Supplier<Boolean> shoot) {
+  /** Creates a new ShootOut. */
+  public ShootOut(Shooter shooter) {
     this.shooter = shooter;
-    this.shoot = shoot;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
   }
@@ -29,10 +23,7 @@ public class ShootCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(shoot.get())
-      shooter.setSpeed(.9);
-    if(shoot.get() == false)
-      shooter.setSpeed(0);
+    shooter.setSpeed(.9);
   }
 
   // Called once the command ends or is interrupted.

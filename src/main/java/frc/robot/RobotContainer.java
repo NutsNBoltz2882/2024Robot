@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCmd;
+import frc.robot.commands.PickUpNote;
 import frc.robot.commands.ShootCmd;
 // import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -17,7 +18,9 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import java.io.File;
 
+import com.fasterxml.jackson.core.sym.Name;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.MathUtil;
@@ -48,17 +51,18 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter(18, 19);
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController intakeController = new CommandXboxController(1);
-
   private final SendableChooser<Command> autoChooser;
   
  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    NamedCommands.registerCommand("pick up note", new PickUpNote(intake));  
+
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto chooser", autoChooser);
-    autoChooser.addOption("Better Drive Forward", new PathPlannerAuto("Drive Forward"));
-    autoChooser.addOption("Simple Drive Forward", new PathPlannerAuto("New Auto"));
+    autoChooser.addOption("none", null);
+    
     // Configure the trigger bindings
     /*
     drivetrain.setDefaultCommand(drivetrain.arcadeDriveCommand(
